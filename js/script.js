@@ -8,8 +8,22 @@ const hamburger = document.querySelector('.hamburger'),
     illBtn = document.getElementById("illBtn"),
     bullitBtn = document.getElementById('bullitBtn'),
     bullitImg = document.querySelector('.bullit__img'),
-    bullitDscr = document.querySelector('.bullit__descr');
+    bullitDscr = document.querySelector('.bullit__descr'),
+    cardFirst = document.getElementById('cardFirst'),
+    cardSecond = document.getElementById('cardSecond'),
+    cardMain = document.querySelector('.card__item-main'),
+    cardAdd = document.querySelector('.card__item-additional'),
+    headerBtn = document.getElementById('headerBtn'),
+    footerBtn = document.getElementById('footerBtn'),
+    modalOver = document.querySelector('.shell'),
+    modalClose = document.querySelector('.modal__close'),
+    thanksClose = document.querySelector('.thanks__close'),
+    basket = document.querySelector('.basket'),
+    //Div внутри корзины в который добавляем товар(wrapper)
+    basketWrapper = document.querySelector('.basket__wrapper')
 
+
+    
 
 hamburger.addEventListener('click', function() {
 	menu.classList.add('active');
@@ -22,6 +36,7 @@ closeElem.addEventListener('click', function () {
 video.addEventListener('click', function() {
     overlay.classList.add('overlay_active');
 });
+
 
 
 closeVideo.addEventListener('click', function() {
@@ -42,11 +57,6 @@ illBtn.addEventListener('click', function() {
 
 /////////////////////////////Кнопка смены дисплеев в секции Bullit//////////////////////////////
 
-// bullitBtn.addEventListener('click', function() {
-//     bullitImg.classList.add('bullit-disable'),
-//     bullitDscr.classList.add('bullit-active')
-// });
-
 bullitBtn.addEventListener('click', function () {
     if (bullitImg.classList.contains('bullit-active')) {
         bullitDscr.classList.add('bullit-active'),
@@ -56,3 +66,179 @@ bullitBtn.addEventListener('click', function () {
         bullitDscr.classList.remove('bullit-active')
     }
 });
+
+////////////////////////Кнопка смены дисплеев в секции Card//////////////////////////////////////
+
+
+cardFirst.addEventListener('click', function () {
+    if (cardMain.classList.contains('card-active')) {
+        cardAdd.classList.add('card-active'),
+        cardMain.classList.remove('card-active')
+    } else {
+        cardMain.classList.add('card-active'),
+        cardAdd.classList.remove('card-active')
+    }
+});
+
+cardSecond.addEventListener('click', function () {
+    if (cardMain.classList.contains('card-active')) {
+        cardAdd.classList.add('card-active'),
+        cardMain.classList.remove('card-active')
+    } else {
+        cardMain.classList.add('card-active'),
+        cardAdd.classList.remove('card-active')
+    }
+});
+
+
+///////////////////////////Модальное окно с заявкой/////////////////////////////////////////////
+
+headerBtn.addEventListener('click', function() {
+    modalOver.classList.add('shell_active')
+});
+
+footerBtn.addEventListener('click', function() {
+    modalOver.classList.add('shell_active')
+});
+
+modalClose.addEventListener('click', function() {
+    modalOver.classList.remove('shell_active')
+});
+
+thanksClose.addEventListener('click', function() {
+    $('.thanks, #thanks').fadeOut('slow');
+});
+
+
+///Окно с корзиной
+
+
+
+
+//////////////////////////Отправка формы//////////////////////////////////////////////
+$(document).ready(function() {
+    $('form').submit(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "mailer/smart.php",
+            dara: $(this).serialize()
+        }).done(function() {
+            $(this).find("input").val("");
+            $('#modal, #basket').fadeOut();
+            $('.thanks, #thanks').fadeIn('slow');
+            
+            $('form').trigger('reset');
+        });
+        return false;
+    });
+});
+
+
+//////////////////////////Section Shop////////////////////////////////////////////////
+//Счетчик//
+
+window.addEventListener('click', function(event) {
+
+    ///объявляем переменную для счетчика
+    let counter;
+
+
+     //проверяем клик строго по кнопкам плюс или минус
+    if (event.target.dataset.action === 'plus' || event.target.dataset.action === 'minus') {
+        //находим обертку счетчика
+        const counterWrapper = event.target.closest('.counter');
+
+        //находим div с числом счетчика
+        counter = counterWrapper.querySelector('[data-counter]');
+    };
+    
+
+
+    //является ли элемент по которому мы кликнули кнопкой плюс
+    if (event.target.dataset.action === 'plus') {
+
+        //при клике на кнопку плюс, увеличиваем счетчик на 1
+        counter.innerText = ++counter.innerText;
+    }
+
+
+    //является ли элемент по которому мы кликнули кнопкой минус
+    if (event.target.dataset.action === 'minus') {
+
+        //если число счетчика > 1, то уменьшаем на 1...
+        if (parseInt(counter.innerText) > 1) {
+            counter.innerText = --counter.innerText;
+        }
+    }
+});
+
+//Добавление в корзину//
+
+    //Отслеживание клика на странице
+window.addEventListener('click', function (event) {
+
+    //Проверяем что клик совершен по кнопке "Buy Now"
+    if (event.target.hasAttribute('data-cart')) {
+        
+        //Находим карточку товара внутри которой был совершен клик
+        const card = event.target.closest('.shop__item');
+
+
+        //собираем данные с этого товара
+        const productInfo = {
+            id: card.dataset.id,
+            imgSrc: card.querySelector('.shop__item-img').getAttribute('src'),
+            title: card.querySelector('.shop__item-portal').innerText,
+            description: card.querySelector('.shop__item-descr').innerText,
+            price: card.querySelector('.shop__item-price').innerText,
+            counter: card.querySelector('[data-counter]').innerText,
+        };
+
+        console.log(productInfo);
+
+        const cartItemHtml = `<div class="basket__item" data-id="${productInfo.id}">
+                                <img src="${productInfo.imgSrc}" alt="${productInfo.title}" class="basket__item-img">
+                                <div class="basket__item-title">
+                                    ${productInfo.title}
+                                </div>
+                                <p class="basket__item-descr">
+                                    ${productInfo.description}
+                                </p>
+                                <div class="basket__item-calculator">
+                                    <div class="basket__counter">
+                                        <div class="basket__counter-control">-</div>
+                                        <div class="basket__counter-current">${productInfo.counter}</div>
+                                        <div class="basket__counter-control">+</div>
+                                    </div>
+                                    <p class="basket__item-price">
+                                        ${productInfo.price}
+                                    </p>
+                                </div>
+                            </div>`;
+
+        //Отобразим товар в корзине
+
+        basketWrapper.insertAdjacentHTML('beforeend', cartItemHtml);
+    }
+});
+
+
+
+//Вызов Корзинны с кнопки Buy now///
+
+window.addEventListener('click', function (event) {
+    if (event.target.hasAttribute('data-cart')) {
+        basket.classList.add('basket_active')
+    }
+
+});
+    //Закрыть корзину
+window.addEventListener('click', function (event) {
+    if (event.target.dataset.action === 'close') {
+        basket.classList.remove('basket_active')
+    }
+});
+
+
+
