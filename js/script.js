@@ -229,10 +229,16 @@ window.addEventListener('click', function (event) {
 
 });
     //Закрыть корзину
-window.addEventListener('click', function (event) {
-    if (event.target.dataset.action === 'close') {
-        basket.classList.remove('basket_active')
-    }
+// window.addEventListener('click', function (event) {
+//     if (event.target.dataset.action === 'close') {
+//         basket.classList.remove('basket_active')
+//     }
+// });
+
+const basketClose = document.querySelector('.basket__close');
+
+basketClose.addEventListener('click', function () {
+    basket.classList.remove('basket_active')
 });
 
 
