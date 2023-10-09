@@ -9,10 +9,6 @@ const hamburger = document.querySelector('.hamburger'),
     bullitBtn = document.getElementById('bullitBtn'),
     bullitImg = document.querySelector('.bullit__img'),
     bullitDscr = document.querySelector('.bullit__descr'),
-    cardFirst = document.getElementById('cardFirst'),
-    cardSecond = document.getElementById('cardSecond'),
-    cardMain = document.querySelector('.card__item-main'),
-    cardAdd = document.querySelector('.card__item-additional'),
     headerBtn = document.getElementById('headerBtn'),
     footerBtn = document.getElementById('footerBtn'),
     modalOver = document.querySelector('.shell'),
@@ -69,26 +65,30 @@ bullitBtn.addEventListener('click', function () {
 
 ////////////////////////Кнопка смены дисплеев в секции Card//////////////////////////////////////
 
+window.addEventListener('click', function(event) {
+    let cardMain,
+        cardAdd;
 
-cardFirst.addEventListener('click', function () {
-    if (cardMain.classList.contains('card-active')) {
-        cardAdd.classList.add('card-active'),
-        cardMain.classList.remove('card-active')
-    } else {
-        cardMain.classList.add('card-active'),
-        cardAdd.classList.remove('card-active')
-    }
+    if (event.target.dataset.action === 'cardSwipe') {
+
+         //находим обертку карты(родителя)
+        const cardWrapper = event.target.closest('.card__item');
+        
+        cardMain = cardWrapper.querySelector('.card__item-main'),
+        cardAdd = cardWrapper.querySelector('.card__item-additional');
+
+        if (cardMain.classList.contains('card-active')) {
+            cardAdd.classList.add('card-active'),
+            cardMain.classList.remove('card-active')
+        } else {
+            cardMain.classList.add('card-active'),
+            cardAdd.classList.remove('card-active')
+        }
+    };
 });
 
-cardSecond.addEventListener('click', function () {
-    if (cardMain.classList.contains('card-active')) {
-        cardAdd.classList.add('card-active'),
-        cardMain.classList.remove('card-active')
-    } else {
-        cardMain.classList.add('card-active'),
-        cardAdd.classList.remove('card-active')
-    }
-});
+
+
 
 
 ///////////////////////////Модальное окно с заявкой/////////////////////////////////////////////
@@ -108,11 +108,6 @@ modalClose.addEventListener('click', function() {
 thanksClose.addEventListener('click', function() {
     $('.thanks, #thanks').fadeOut('slow');
 });
-
-
-///Окно с корзиной
-
-
 
 
 //////////////////////////Отправка формы//////////////////////////////////////////////
@@ -225,10 +220,10 @@ window.addEventListener('click', function (event) {
 
 
 
-//Вызов Корзинны с кнопки Buy now///
+//Вызов Корзинны с иконки Basket///
 
 window.addEventListener('click', function (event) {
-    if (event.target.hasAttribute('data-cart')) {
+    if (event.target.dataset.action === 'basketCall') {
         basket.classList.add('basket_active')
     }
 
