@@ -190,7 +190,9 @@ window.addEventListener('click', function (event) {
             counter: card.querySelector('[data-counter]').innerText,
         };
 
-        console.log(productInfo);
+        // Проверить, есть ли такой товар уже в корзине
+
+        
 
         const cartItemHtml = `<div class="basket__item" data-id="${productInfo.id}">
                                 <img src="${productInfo.imgSrc}" alt="${productInfo.title}" class="basket__item-img">
@@ -229,17 +231,13 @@ window.addEventListener('click', function (event) {
 
 });
     //Закрыть корзину
-// window.addEventListener('click', function (event) {
-//     if (event.target.dataset.action === 'close') {
-//         basket.classList.remove('basket_active')
-//     }
-// });
-
-const basketClose = document.querySelector('.basket__close');
-
-basketClose.addEventListener('click', function () {
-    basket.classList.remove('basket_active')
+window.addEventListener('click', function (event) {
+    if (event.target.dataset.action === 'basketClose') {
+        basket.classList.remove('basket_active')
+    }
 });
+
+
 
 
 
