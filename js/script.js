@@ -169,7 +169,7 @@ window.addEventListener('click', function(event) {
 });
 
 //Добавление в корзину//
-
+    
     //Отслеживание клика на странице
 window.addEventListener('click', function (event) {
 
@@ -237,6 +237,12 @@ window.addEventListener('click', function (event) {
     }
 });
 
+
+window.addEventListener('touchstart', function(event) {
+    if (event.target.dataset.action === 'basketClose') {
+        basket.classList.remove('basket_active')
+    }
+});
 
 
 
