@@ -86,6 +86,28 @@ window.addEventListener('click', function(event) {
         }
     };
 });
+//для айфонов//
+window.addEventListener('touchstart', function(event) {
+    let cardMain,
+        cardAdd;
+
+    if (event.target.dataset.action === 'cardSwipe') {
+
+         //находим обертку карты(родителя)
+        const cardWrapper = event.target.closest('.card__item');
+        
+        cardMain = cardWrapper.querySelector('.card__item-main'),
+        cardAdd = cardWrapper.querySelector('.card__item-additional');
+
+        if (cardMain.classList.contains('card-active')) {
+            cardAdd.classList.add('card-active'),
+            cardMain.classList.remove('card-active')
+        } else {
+            cardMain.classList.add('card-active'),
+            cardAdd.classList.remove('card-active')
+        }
+    };
+});
 
 
 
@@ -168,6 +190,40 @@ window.addEventListener('click', function(event) {
     }
 });
 
+//Для айфона используем touchstart
+
+window.addEventListener('touchstart', function(event) {
+
+    let counter;
+
+     //проверяем клик строго по кнопкам плюс или минус
+    if (event.target.dataset.action === 'plus' || event.target.dataset.action === 'minus') {
+        //находим обертку счетчика
+        const counterWrapper = event.target.closest('.counter');
+
+        //находим div с числом счетчика
+        counter = counterWrapper.querySelector('[data-counter]');
+    };
+    
+
+
+    //является ли элемент по которому мы кликнули кнопкой плюс
+    if (event.target.dataset.action === 'plus') {
+
+        //при клике на кнопку плюс, увеличиваем счетчик на 1
+        counter.innerText = ++counter.innerText;
+    }
+
+
+    //является ли элемент по которому мы кликнули кнопкой минус
+    if (event.target.dataset.action === 'minus') {
+
+        //если число счетчика > 1, то уменьшаем на 1...
+        if (parseInt(counter.innerText) > 1) {
+            counter.innerText = --counter.innerText;
+        }
+    }
+});
 //Добавление в корзину//
     
     //Отслеживание клика на странице
