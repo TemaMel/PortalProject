@@ -199,38 +199,38 @@ window.addEventListener('click', function(event) {
 
 //Для айфона используем touchstart///
 
-window.addEventListener('touchstart', function(event) {
+// window.addEventListener('touchstart', function(event) {
 
-    let counter;
+//     let counter;
 
-     //проверяем клик строго по кнопкам плюс или минус
-    if (event.target.dataset.action === 'plus' || event.target.dataset.action === 'minus') {
-        //находим обертку счетчика
-        const counterWrapper = event.target.closest('.counter');
+//      //проверяем клик строго по кнопкам плюс или минус
+//     if (event.target.dataset.action === 'plus' || event.target.dataset.action === 'minus') {
+//         //находим обертку счетчика
+//         const counterWrapper = event.target.closest('.counter');
 
-        //находим div с числом счетчика
-        counter = counterWrapper.querySelector('[data-counter]');
-    };
+//         //находим div с числом счетчика
+//         counter = counterWrapper.querySelector('[data-counter]');
+//     };
     
 
 
-    //является ли элемент по которому мы кликнули кнопкой плюс
-    if (event.target.dataset.action === 'plus') {
+//     //является ли элемент по которому мы кликнули кнопкой плюс
+//     if (event.target.dataset.action === 'plus') {
 
-        //при клике на кнопку плюс, увеличиваем счетчик на 1
-        counter.innerText = ++counter.innerText;
-    }
+//         //при клике на кнопку плюс, увеличиваем счетчик на 1
+//         counter.innerText = ++counter.innerText;
+//     }
 
 
-    //является ли элемент по которому мы кликнули кнопкой минус
-    if (event.target.dataset.action === 'minus') {
+//     //является ли элемент по которому мы кликнули кнопкой минус
+//     if (event.target.dataset.action === 'minus') {
 
-        //если число счетчика > 1, то уменьшаем на 1...
-        if (parseInt(counter.innerText) > 1) {
-            counter.innerText = --counter.innerText;
-        }
-    }
-});
+//         //если число счетчика > 1, то уменьшаем на 1...
+//         if (parseInt(counter.innerText) > 1) {
+//             counter.innerText = --counter.innerText;
+//         }
+//     }
+// });
 
 
 
@@ -265,7 +265,6 @@ window.addEventListener('click', function (event) {
         if (itemInBasket) {
 
             counterEl = itemInBasket.querySelector('[data-counter]');
-            // counterEl.innerText = parseInt(counterEl.innerText) + parseInt(productInfo.counter);
             counterEl.innerHTML = parseInt(counterEl.innerHTML) + parseInt(productInfo.counter);
 
         } else {
@@ -280,9 +279,9 @@ window.addEventListener('click', function (event) {
                                     </p>
                                     <div class="basket__item-calculator">
                                         <div class="counter">
-                                            <div class="counter__control" data-action="minus">-</div>
+                                            <div class="counter__control" onclick="" data-action="minus">-</div>
                                             <div class="counter__current" data-counter="">${productInfo.counter}</div>
-                                            <div class="counter__control" data-action="plus">+</div>
+                                            <div class="counter__control" onclick="" data-action="plus">+</div>
                                         </div>
                                         <p class="basket__item-price">
                                             ${productInfo.price}
@@ -315,11 +314,11 @@ window.addEventListener('click', function (event) {
 });
 
 
-window.addEventListener('touchstart', function(event) {
-    if (event.target.dataset.action === 'basketClose') {
-        basket.classList.remove('basket_active')
-    }
-});
+// window.addEventListener('touchstart', function(event) {
+//     if (event.target.dataset.action === 'basketClose') {
+//         basket.classList.remove('basket_active')
+//     }
+// });
 
 
 
