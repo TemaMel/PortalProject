@@ -16,7 +16,7 @@ const hamburger = document.querySelector('.hamburger'),
     thanksClose = document.querySelector('.thanks__close'),
     basket = document.querySelector('.basket'),
     //Div внутри корзины в который добавляем товар(wrapper)
-    basketWrapper = document.querySelector('.basket__wrapper')
+    basketWrapper = document.querySelector('.basket__wrapper');
 
 
     
@@ -86,28 +86,30 @@ window.addEventListener('click', function(event) {
         }
     };
 });
+
+
 //для айфонов//
-window.addEventListener('touchstart', function(event) {
-    let cardMain,
-        cardAdd;
+// window.addEventListener('touchstart', function(event) {
+//     let cardMain,
+//         cardAdd;
 
-    if (event.target.dataset.action === 'cardSwipe') {
+//     if (event.target.dataset.action === 'cardSwipe') {
 
-         //находим обертку карты(родителя)
-        const cardWrapper = event.target.closest('.card__item');
+//          //находим обертку карты(родителя)
+//         const cardWrapper = event.target.closest('.card__item');
         
-        cardMain = cardWrapper.querySelector('.card__item-main'),
-        cardAdd = cardWrapper.querySelector('.card__item-additional');
+//         cardMain = cardWrapper.querySelector('.card__item-main'),
+//         cardAdd = cardWrapper.querySelector('.card__item-additional');
 
-        if (cardMain.classList.contains('card-active')) {
-            cardAdd.classList.add('card-active'),
-            cardMain.classList.remove('card-active')
-        } else {
-            cardMain.classList.add('card-active'),
-            cardAdd.classList.remove('card-active')
-        }
-    };
-});
+//         if (cardMain.classList.contains('card-active')) {
+//             cardAdd.classList.add('card-active'),
+//             cardMain.classList.remove('card-active')
+//         } else {
+//             cardMain.classList.add('card-active'),
+//             cardAdd.classList.remove('card-active')
+//         }
+//     };
+// });
 
 
 
@@ -170,8 +172,6 @@ window.addEventListener('click', function(event) {
         counter = counterWrapper.querySelector('[data-counter]');
     };
     
-
-
     //является ли элемент по которому мы кликнули кнопкой плюс
     if (event.target.dataset.action === 'plus') {
 
@@ -185,12 +185,19 @@ window.addEventListener('click', function(event) {
 
         //если число счетчика > 1, то уменьшаем на 1...
         if (parseInt(counter.innerText) > 1) {
+
             counter.innerText = --counter.innerText;
+
+            //Проверка на товар который находится в корзине
+        } else if (event.target.closest('.basket__wrapper') && parseInt(counter.innerText) === 1) {
+            //Удаление товара из корзины
+            event.target.closest('.basket__item').remove();
         }
+
     }
 });
 
-//Для айфона используем touchstart
+//Для айфона используем touchstart///
 
 window.addEventListener('touchstart', function(event) {
 
@@ -224,6 +231,10 @@ window.addEventListener('touchstart', function(event) {
         }
     }
 });
+
+
+
+
 //Добавление в корзину//
     
     //Отслеживание клика на странице
@@ -247,32 +258,42 @@ window.addEventListener('click', function (event) {
         };
 
         // Проверить, есть ли такой товар уже в корзине
+        const itemInBasket = basketWrapper.querySelector(`[data-id="${productInfo.id}"]`);
 
+        //Если товар есть в корзине
         
+        if (itemInBasket) {
 
-        const cartItemHtml = `<div class="basket__item" data-id="${productInfo.id}">
-                                <img src="${productInfo.imgSrc}" alt="${productInfo.title}" class="basket__item-img">
-                                <div class="basket__item-title">
-                                    ${productInfo.title}
-                                </div>
-                                <p class="basket__item-descr">
-                                    ${productInfo.description}
-                                </p>
-                                <div class="basket__item-calculator">
-                                    <div class="basket__counter">
-                                        <div class="basket__counter-control">-</div>
-                                        <div class="basket__counter-current">${productInfo.counter}</div>
-                                        <div class="basket__counter-control">+</div>
+            counterEl = itemInBasket.querySelector('[data-counter]');
+            // counterEl.innerText = parseInt(counterEl.innerText) + parseInt(productInfo.counter);
+            counterEl.innerHTML = parseInt(counterEl.innerHTML) + parseInt(productInfo.counter);
+
+        } else {
+
+            const cartItemHtml = `<div class="basket__item" data-id="${productInfo.id}">
+                                    <img src="${productInfo.imgSrc}" alt="${productInfo.title}" class="basket__item-img">
+                                    <div class="basket__item-title">
+                                        ${productInfo.title}
                                     </div>
-                                    <p class="basket__item-price">
-                                        ${productInfo.price}
+                                    <p class="basket__item-descr">
+                                        ${productInfo.description}
                                     </p>
-                                </div>
-                            </div>`;
+                                    <div class="basket__item-calculator">
+                                        <div class="counter">
+                                            <div class="counter__control" data-action="minus">-</div>
+                                            <div class="counter__current" data-counter="">${productInfo.counter}</div>
+                                            <div class="counter__control" data-action="plus">+</div>
+                                        </div>
+                                        <p class="basket__item-price">
+                                            ${productInfo.price}
+                                        </p>
+                                    </div>
+                                </div>`;
 
-        //Отобразим товар в корзине
+            //Отобразим товар в корзине
 
-        basketWrapper.insertAdjacentHTML('beforeend', cartItemHtml);
+            basketWrapper.insertAdjacentHTML('beforeend', cartItemHtml);
+        }
     }
 });
 
