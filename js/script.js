@@ -88,33 +88,6 @@ window.addEventListener('click', function(event) {
 });
 
 
-//для айфонов//
-// window.addEventListener('touchstart', function(event) {
-//     let cardMain,
-//         cardAdd;
-
-//     if (event.target.dataset.action === 'cardSwipe') {
-
-//          //находим обертку карты(родителя)
-//         const cardWrapper = event.target.closest('.card__item');
-        
-//         cardMain = cardWrapper.querySelector('.card__item-main'),
-//         cardAdd = cardWrapper.querySelector('.card__item-additional');
-
-//         if (cardMain.classList.contains('card-active')) {
-//             cardAdd.classList.add('card-active'),
-//             cardMain.classList.remove('card-active')
-//         } else {
-//             cardMain.classList.add('card-active'),
-//             cardAdd.classList.remove('card-active')
-//         }
-//     };
-// });
-
-
-
-
-
 ///////////////////////////Модальное окно с заявкой/////////////////////////////////////////////
 
 headerBtn.addEventListener('click', function() {
@@ -155,6 +128,54 @@ $(document).ready(function() {
 
 
 //////////////////////////Section Shop////////////////////////////////////////////////
+
+function calcBasketPrice() {
+    const basketItems = document.querySelectorAll('.basket__item');
+    const totalPriceEl = document.querySelector('.basket__finish-price');
+
+    let totalPrice = 0;
+
+    basketItems.forEach(function (item) {
+
+        const amountEl = item.querySelector('[data-counter]');
+        const priceEl = item.querySelector('.basket__item-price');
+        const currentPrice = parseInt(amountEl.innerHTML) * parseInt(priceEl.innerHTML);
+        totalPrice += currentPrice;
+        // const amountEl = item.closest('.basket__item').querySelector('[data-counter]');
+        
+        // totalPrice += parseInt(item.innerHTML) * parseInt(amountEl.innerHTML);
+    });
+
+
+    //Отображаем цену на страницу
+    totalPriceEl.innerHTML = totalPrice;
+};
+
+
+
+//Скрытие надписи "Корзина пуста"
+
+function toggleCartStatus () {
+
+    const basketWrapper = document.querySelector('.basket__wrapper');
+    const basketEmpty = document.querySelector('.basket__empty');
+    const basketForm = document.querySelector('.basket__form');
+
+    if (basketWrapper.children.length > 0) {
+
+        console.log('FULL');
+        basketWrapper.classList.remove('basket-none');
+        basketEmpty.classList.add('basket-none');
+        basketForm.classList.remove('basket-none')
+    } else {
+        console.log('EMPTY');
+        basketWrapper.classList.add('basket-none');
+        basketEmpty.classList.remove('basket-none');
+        basketForm.classList.add('basket-none');
+    }
+};
+
+
 //Счетчик//
 
 window.addEventListener('click', function(event) {
@@ -190,49 +211,25 @@ window.addEventListener('click', function(event) {
 
             //Проверка на товар который находится в корзине
         } else if (event.target.closest('.basket__wrapper') && parseInt(counter.innerText) === 1) {
+            
             //Удаление товара из корзины
             event.target.closest('.basket__item').remove();
+            // Отображение статуса товара в корзине Пустая/полная
+            toggleCartStatus();
+            //Пересчет общей стоимости товаров в корзине
+            calcBasketPrice ();
         }
 
     }
+
+    //Проверяем клик на + или - внутри корзины
+
+    if (event.target.hasAttribute('data-action') && event.target.closest('.basket__wrapper')) {
+
+        //Пересчет общей стоимости товаров в корзине
+        calcBasketPrice ();
+    }
 });
-
-//Для айфона используем touchstart///
-
-// window.addEventListener('touchstart', function(event) {
-
-//     let counter;
-
-//      //проверяем клик строго по кнопкам плюс или минус
-//     if (event.target.dataset.action === 'plus' || event.target.dataset.action === 'minus') {
-//         //находим обертку счетчика
-//         const counterWrapper = event.target.closest('.counter');
-
-//         //находим div с числом счетчика
-//         counter = counterWrapper.querySelector('[data-counter]');
-//     };
-    
-
-
-//     //является ли элемент по которому мы кликнули кнопкой плюс
-//     if (event.target.dataset.action === 'plus') {
-
-//         //при клике на кнопку плюс, увеличиваем счетчик на 1
-//         counter.innerText = ++counter.innerText;
-//     }
-
-
-//     //является ли элемент по которому мы кликнули кнопкой минус
-//     if (event.target.dataset.action === 'minus') {
-
-//         //если число счетчика > 1, то уменьшаем на 1...
-//         if (parseInt(counter.innerText) > 1) {
-//             counter.innerText = --counter.innerText;
-//         }
-//     }
-// });
-
-
 
 
 //Добавление в корзину//
@@ -290,9 +287,18 @@ window.addEventListener('click', function (event) {
                                 </div>`;
 
             //Отобразим товар в корзине
-
             basketWrapper.insertAdjacentHTML('beforeend', cartItemHtml);
+    
         }
+
+
+
+        //Отображение статуса корзина Пустая / полная
+        toggleCartStatus();
+
+        //Пересчет общей стоимости товаров в корзине
+
+        calcBasketPrice();
     }
 });
 
@@ -312,14 +318,3 @@ window.addEventListener('click', function (event) {
         basket.classList.remove('basket_active')
     }
 });
-
-
-// window.addEventListener('touchstart', function(event) {
-//     if (event.target.dataset.action === 'basketClose') {
-//         basket.classList.remove('basket_active')
-//     }
-// });
-
-
-
-

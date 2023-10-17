@@ -95,42 +95,29 @@
 
         <div class="basket" id="basket">
             <div class="basket__block">
-                <div class="container">
-                    <div class="basket__shell">
-                        <div class="basket__close" data-action="basketClose" onclick="">х</div>
-                        <div class="basket__title">
-                            Ваш заказ
-                        </div>
-                        <div class="basket__wrapper">
-                            <!-- <div class="basket__item">
-                                <img src="img/basket/basket_item.png" alt="basketShop1" class="basket__item-img">
-                                <div class="basket__item-title">
-                                    Portal TV
-                                </div>
-                                <p class="basket__item-descr">
-                                    Smart video calling on your TV
-                                </p>
-                                <div class="basket__item-calculator">
-                                    <div class="basket__counter">
-                                        <div class="basket__counter-control">-</div>
-                                        <div class="basket__counter-current data-counter="">1</div>
-                                        <div class="basket__counter-control">+</div>
-                                    </div>
-                                    <p class="basket__item-price">
-                                        <sup>$</sup>149
-                                    </p>
-                                </div>
-                            </div> -->
-                        </div>
-                        <div class="basket__delivery">Доставка: <span>бесплатно</span></div>
-                        <div class="basket__finish">Итого: <span>330$</span></div>
-                        <div class="basket__divider"></div>
-                        <form action="" class="basket__form">
-                            <div class="basket__form-title">Оформить заказ</div>
-                            <input type="tel" placeholder="Ваш номер телефона" required>
-                            <button  class="basket__button">Заказать</button>
-                        </form>
+                <div class="basket__shell">
+                    <div class="basket__close" data-action="basketClose" onclick="">х</div>
+                    <div class="basket__title">
+                        Ваш заказ
                     </div>
+                    <div class="basket__empty">
+                        В вашей корзине пусто
+                    </div>
+                    <div class="basket__wrapper basket-none">
+                        
+                    </div>
+                    <div class="basket__delivery">Доставка: <span>бесплатно</span></div>
+                    <div class="basket__finish">
+                        <span>Итого:</span>
+                        <span class="basket__finish-price">0</span>
+                        <span class="basket__finish-value">$</span>
+                    </div>    
+                    <div class="basket__divider"></div>
+                    <form action="" class="basket__form basket-none">
+                        <div class="basket__form-title">Оформить заказ</div>
+                        <input type="tel" placeholder="Ваш номер телефона" required>
+                        <button  class="basket__button">Заказать</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -392,7 +379,7 @@
                                 Portal TV
                             </p>
                             <p class="shop__item-price">
-                                <sup>$</sup>149
+                               149<sup>$</sup>
                             </p>
                         </div>
                         <div class="shop__item-card">
@@ -413,7 +400,7 @@
                                 Portal
                             </p>
                             <p class="shop__item-price">
-                                <sup>$</sup>179
+                                179<sup>$</sup>
                             </p>
                         </div>
                         <div class="shop__item-card">
@@ -434,7 +421,7 @@
                                 Portal+
                             </p>
                             <p class="shop__item-price">
-                                <sup>$</sup>279
+                                279<sup>$</sup>
                             </p>
                         </div>
                         <div class="shop__item-card">
@@ -455,7 +442,7 @@
                                 Portal Mini
                             </p>
                             <p class="shop__item-price">
-                                <sup>$</sup>129
+                                129<sup>$</sup>
                             </p>
                         </div>
                         <div class="shop__item-card">
